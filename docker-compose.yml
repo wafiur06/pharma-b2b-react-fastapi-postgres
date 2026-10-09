@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: my_db_user
+      POSTGRES_PASSWORD: my_db_password
+      POSTGRES_DB: pharma_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: wafiur/pharma-backend:latest
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql://my_db_user:my_db_password@db:5432/pharma_db
+      - JWT_SECRET_KEY=super_secret_key_for_local_test_123
+    depends_on:
+      - db
+
+  frontend:
+    image: wafiur/pharma-frontend:latest
+    ports:
+      - "5173:5173" # Othoba 3000, apnar port onujayi
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
