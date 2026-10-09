@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 8000
 # Jodi apnar main file er nam 'main.py' na hoy, tobe nicher line e 'main:app' change kore sothik nam din
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
